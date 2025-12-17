@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_unnecessary_containers, unused_element
+// ignore_for_file: avoid_unnecessary_containers, unused_element, unused_local_variable
 
 import 'package:expense_app/models/expense.dart';
 import 'package:expense_app/screens/expense/expense_list.dart';
@@ -63,6 +63,15 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) 
   {
+    Widget mainContent = const Center
+    (
+      child: Text('No expenses found. Start adding some!'),
+    );
+
+    if(_registeredExpenses.isNotEmpty)
+    {
+      mainContent = ExpenseList(expenses: _registeredExpenses, onRemoveExpense: _removeExpenses);
+    }
     
     return Scaffold
     (
@@ -73,25 +82,22 @@ class _HomeScreenState extends State<HomeScreen>
             IconButton
             (
               onPressed: _onClickOnAddBtn,
-              icon: Icon(Icons.add_box_rounded),
+              icon: const Icon(Icons.add_box_rounded),
             )
         ],
-        title: Text('Expense Tracker'),
+        title: const Text('Expense Tracker'),
         backgroundColor: Colors.blue,
       ),
       
-      body: Center
+      body: Column
       (
-        child: Column
-        (
-          children: 
-          [
-            Expanded
-            (
-              child: ExpenseList(expenses: _registeredExpenses, onRemoveExpense: _removeExpenses),
-            )
-          ],
-        )
+        children: 
+        [
+          Expanded
+          (
+            child: mainContent,
+          )
+        ],
       ),
     );
     
