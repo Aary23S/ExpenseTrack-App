@@ -1,11 +1,12 @@
-// ignore_for_file: unused_import, avoid_print
+// ignore_for_file: unused_import, avoid_print, unused_local_variable
 import 'package:expense_app/models/expense.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 class NewExpense extends StatefulWidget 
 {
-  const NewExpense({super.key});
+  const NewExpense({super.key, required this.onAddExpenses});
+  final void Function(Expense expenses) onAddExpenses;
 
   @override
   State<NewExpense> createState() => _NewExpenseState();
@@ -39,12 +40,46 @@ class _NewExpenseState extends State<NewExpense>
       );
   }
 
+  void _savedExpenses()
+  {
+      final titleText = _titleController.text.trim();
+      final amountValue = double.tryParse(_amountController.text);
+      final bool amountIsInvalid = amountValue == null || amountValue <= 0;
+      final bool categoryIsInvalid = _selectedCategory == Category.none;
+
+      if(titleText.isEmpty || amountIsInvalid || _selectedDate == null || categoryIsInvalid )
+      {
+        showDialog
+        (
+          context: context, builder: (ctx) => AlertDialog
+          (
+            title: const Text("Invalide Input"),
+            content: const Text("You have selected some ivalid values, select the valid inputs"),
+            actions: 
+            [
+              TextButton
+              (
+                onPressed: (){
+                  Navigator.pop(ctx);
+                }, 
+                child: const Text("Okay!"),
+              )
+            ],
+          )
+        );
+      return;
+      }
+  widget.onAddExpenses(Expense(title: titleText, amount: amountValue, date: _selectedDate!, category: _selectedCategory));
+  Navigator.pop(context);
+  }
+
+
   @override
   Widget build(context) 
   {
     return Padding
     (
-      padding: const EdgeInsets.all(16.0),
+      padding: const EdgeInsets.fromLTRB(16,25,16,16),
       child: Column
       (
         children: 
@@ -123,9 +158,10 @@ class _NewExpenseState extends State<NewExpense>
               (
                 onPressed: ()
                 {
-                  print('Saved');
-                  print(_titleController.text);
-                  print(_amountController.text);
+                  // print('Saved');
+                  // print(_titleController.text);
+                  // print(_amountController.text);
+                  _savedExpenses();
                 },
                 style: ElevatedButton.styleFrom
                 (

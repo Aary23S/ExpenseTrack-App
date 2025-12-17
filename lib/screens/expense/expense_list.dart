@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 
 class ExpenseList extends StatelessWidget 
 {
-  const ExpenseList({super.key, required this.expenses});
+  const ExpenseList({super.key, required this.expenses, required this.onRemoveExpense});
 
   final List<Expense> expenses;
+  final void Function(Expense expenses) onRemoveExpense;
 
   @override
   Widget build(context) 
@@ -14,8 +15,15 @@ class ExpenseList extends StatelessWidget
     
     return ListView.builder
     (
-      itemBuilder: (context,index) =>  ExpenseItems(expenses[index]), 
       itemCount: expenses.length,
+      itemBuilder: (context,index) =>  Dismissible
+      (
+        key: ValueKey(expenses[index]), 
+        onDismissed: (direction) {
+          onRemoveExpense(expenses[index]);
+        },
+        child: ExpenseItems(expenses[index])
+      ), 
     );
   }
 }

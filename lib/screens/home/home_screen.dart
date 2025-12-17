@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_unnecessary_containers
+// ignore_for_file: avoid_unnecessary_containers, unused_element
 
 import 'package:expense_app/models/expense.dart';
 import 'package:expense_app/screens/expense/expense_list.dart';
@@ -38,13 +38,28 @@ class _HomeScreenState extends State<HomeScreen>
     showModalBottomSheet
     (
       context: context, 
+      isScrollControlled: true,
       builder: (ctx)
       {
-        return NewExpense();
+        return NewExpense(onAddExpenses: _addNewExpenses);
       }
     );
   }
 
+  void _addNewExpenses(Expense expenses)
+  {
+    setState(() {
+      _registeredExpenses.add(expenses);
+    });
+  }
+
+  void _removeExpenses(Expense expenses)
+  {
+    setState(() {
+      _registeredExpenses.remove(expenses);
+    });
+
+  }
   @override
   Widget build(BuildContext context) 
   {
@@ -73,7 +88,7 @@ class _HomeScreenState extends State<HomeScreen>
           [
             Expanded
             (
-              child: ExpenseList(expenses: _registeredExpenses)
+              child: ExpenseList(expenses: _registeredExpenses, onRemoveExpense: _removeExpenses),
             )
           ],
         )
