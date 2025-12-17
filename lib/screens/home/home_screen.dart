@@ -55,10 +55,23 @@ class _HomeScreenState extends State<HomeScreen>
 
   void _removeExpenses(Expense expenses)
   {
+    final expenseIndex = _registeredExpenses.indexOf(expenses);
+    
     setState(() {
       _registeredExpenses.remove(expenses);
     });
 
+    ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar
+    (content:const Text("Expense Deleted"),duration: const Duration(seconds: 2),
+    action: SnackBarAction(label: "Undo", onPressed: (){
+      setState(() {
+        _registeredExpenses.insert(expenseIndex, expenses);
+      });
+    })
+    ),
+
+    );
   }
   @override
   Widget build(BuildContext context) 
