@@ -1,6 +1,7 @@
 // ignore_for_file: avoid_unnecessary_containers, unused_element, unused_local_variable
 
 import 'package:expense_app/models/expense.dart';
+import 'package:expense_app/screens/charts/chart.dart';
 import 'package:expense_app/screens/expense/expense_list.dart';
 import 'package:expense_app/screens/expense/new_expense.dart';
 import 'package:flutter/material.dart';
@@ -106,6 +107,7 @@ class _HomeScreenState extends State<HomeScreen>
       (
         children: 
         [
+          Chart(expenses: _registeredExpenses),
           Expanded
           (
             child: mainContent,

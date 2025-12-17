@@ -110,12 +110,14 @@ class _MyAppState extends State<MyApp>
           elevation: 3,
           margin: const EdgeInsets.all(8),
           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+          surfaceTintColor: darkScheme.surfaceTint,
         ),
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: darkScheme.surfaceContainerHighest,
           contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+          
         ),
         textTheme: TextTheme(
           titleLarge: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: darkScheme.onSurface),
